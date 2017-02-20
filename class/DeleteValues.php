@@ -32,6 +32,10 @@
                 //Delete image
                 $delete_image="DELETE FROM  ".$dbObj->image_table." WHERE  reference_id='$thread_id' AND upload_type='thread'";
                 $dbObj->dbConnector()->exec($delete_image);
+                //Delete comment related to this thread
+                //Delete image
+                $delete_comment="DELETE FROM  ".$dbObj->comment_table." WHERE  thread_id='$thread_id'";
+                $dbObj->dbConnector()->exec($delete_comment);
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
             }catch(Exception $e){
                 echo$e;

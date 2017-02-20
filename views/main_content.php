@@ -10,7 +10,7 @@
     //Search Button
     if(isset($_POST['serach_keyword'])){
         $keywords=$_POST['serach_keyword'];
-        $result=$getTopics->test($keywords);
+        $result=$getTopics->getSearchResults($keywords);
     }
     if(empty($result)){
         $getMessage=new GetMessage();
@@ -91,7 +91,7 @@
                     <h5><?php echo$thread['full_name'];?></h5>
                 </div>
                 <div class="row">
-                    <?php if(empty($thread['update_time']))echo$thread['create_time']; else echo "Last Update: ".$thread['update_time'];?>
+                    <p style="font-size: 12px;"><?php if(empty($thread['update_time']))echo$thread['create_time']; else echo "Last Update: ".$thread['update_time'];?></p>
                 </div>
             </div>
             <div class="col-md-10">
@@ -133,7 +133,7 @@
                         if ($_SESSION['email'] == $thread['email']) {
                             ?>
                             <div class="pull-right">
-                                <i class="fa fa-pencil-square" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#myModal" data-id="'.$res['thread_id'].'">Edit</a>
+                                <i class="fa fa-pencil-square" aria-hidden="true"></i> <a href="#" data-toggle="modal" data-target="#myModal" data-value_id="<?php echo $thread['thread_id']; ?>">Edit</a>
                                 | <i class="fa fa-trash" aria-hidden="true"></i> <a
                                     href="./class/DeleteValues.php?thread_id=<?php echo $thread['thread_id']; ?>">
                                     Delete</a>
@@ -146,7 +146,7 @@
 
             </div>
         </div>
-    <br>
+        <br>
         <hr>
         <!--Comment Area-->
         <div class="row comment">
@@ -221,3 +221,80 @@
 
     <?php } ?>
 </div>
+
+
+<!--Edit Modal-->
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Thread</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form accept-charset="UTF-8" role="form" method="post" class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="email">Thread Title:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="thread_title" placeholder="thread_title" name="thread_title" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="pwd">thread_details:</label>
+                                    <div class="col-sm-10">
+                                        <textarea rows="5" class="form-control" id="thread_details" placeholder="thread_details" name="thread_details" required=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="pwd">Topic:</label>
+                                    <div class=" col-sm-10">
+                                        <div class="form-group select-topic" style="padding: 0;margin: 0">
+                                            <select class="form-control"  id="topic_name" name="topic_name">
+                                                <?php
+                                                include_once('class/GetValue.php');
+                                                $getTopics=new GetValue();
+                                                foreach($getTopics->getAllTopics() as $result){?>
+                                                    <option value="<?php echo$result['topic_name'];?>"><?php echo$result['topic_name'];?></option>
+                                                <?php }
+                                                ?>
+
+                                            </select>
+                                        </div>
+                                        <i class="fa fa-plus-circle" aria-hidden="true" ></i> <a href="#" data-toggle="modal" data-target="#myModal">Add New Topic</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <input class="btn btn-md btn-success btn-block" type="submit" value="Create Thread" name="create_thread">
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function(e) {
+        var yourparameter = e.relatedTarget.dataset.value_id;
+        alert(yourparameter);
+    });
+</script>

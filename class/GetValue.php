@@ -109,7 +109,7 @@
 
         }
 
-        public function getSearchResults($keywords){
+        /*public function getSearchResults($keywords){
             $dbObj=new DBConfig();
             $connection=$dbObj->dbConnector();
             $thread_table_title=$dbObj->thread_table.".title";
@@ -128,9 +128,9 @@
                 echo$e->getMessage();
             }
 
-        }
+        }*/
 
-        public function test($keywords){
+        public function getSearchResults($keywords){
             $dbObj=new DBConfig();
             $connection=$dbObj->dbConnector();
             $thread_table=$dbObj->thread_table.".email";

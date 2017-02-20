@@ -9,9 +9,13 @@ class DBConfig {
 
     public function dbConnector(){
         $servername = "localhost";
-        $dbUser = "memotiur_test";
+        /*$dbUser = "memotiur_test";
         $dbPass = "test123";
-        $dbname="memotiur_assignment";
+        $dbname="memotiur_assignment";*/
+		
+        $dbUser = "root";
+        $dbPass = "";
+        $dbname="assignment";
         try {
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbUser, $dbPass);
             // set the PDO error mode to exception

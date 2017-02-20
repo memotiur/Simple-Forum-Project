@@ -1,1 +1,0 @@
-[20-Feb-2017 02:57:51 America/New_York] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/memotiur/assignment.helpslab.com/class/DBConfig.php:2) in /home/memotiur/assignment.helpslab.com/class/DeleteValues.php on line 34
