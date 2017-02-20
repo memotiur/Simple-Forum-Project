@@ -2,9 +2,7 @@
 class DBConfig {
     public $user_table="user_table";
     public $thread_table="thread_table";
-    public $topic_table="topic_table";
-    public $image_table="image_table";
-    public $comment_table="comment_table";
+    public $topic_table="topic_tbale";
     /*public function dbReturn(){
         $servername = "localhost";
         $dbUser = "root";

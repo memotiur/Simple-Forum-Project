@@ -1,73 +1,17 @@
 <?php
     if(empty($_SESSION['login_status'])){
-        header("location:index.php?page=login&&message=thread_err");
+        header("location:index.php?page=login&&message=err");
     }
     require_once('class/SetValue.php');
     $setObj=new SetValue();
-
-    //Image Counter
-    $counter=0;
-    //Create Getmessage obj
-    require_once('class/GetMessage.php');
-    $messageObj=new GetMessage();
-
-    $topic_add_status=-1;
-    $threadCreateStatus=-1;
+    $topic_add_status=404;
+    $threadCreateStatus=404;
     if(isset($_POST['create_thread'])){
         $thread_title=$_POST['thread_title'];
         $thread_details=$_POST['thread_details'];
-        $topic_name = $_POST['topic_name'];
+        $std_section = $_POST['std_section'];echo$std_section;
         $email=$_SESSION['email'];
-        $threadCreateStatus=$setObj->setThread($thread_title,$thread_details,$topic_name,$email);
-
-        if(isset($_FILES['files'])){
-            $upload_type="thread";
-            //$last_thread_id=$threadCreateStatus=$setObj->setThread($thread_title,$thread_details,$topic_name,$email);
-            $errors= array();
-            foreach($_FILES['files']['tmp_name'] as $key => $tmp_name ){
-                $time=date('s');
-                $file_name = $time."_".$_FILES['files']['name'][$key];
-                $file_size =$_FILES['files']['size'][$key];
-                $file_tmp =$_FILES['files']['tmp_name'][$key];
-                $file_type=$_FILES['files']['type'][$key]; //echo$file_type."<br>";
-
-                if($file_size > 2097152){
-                    $messageObj->getWraningMessage("File size must be less than 2 MB");
-                    $errors[]='';
-                }
-
-                 $desired_dir="img";
-                if(empty($errors)==true){
-                    if($file_type != "image/jpg" && $file_type != "image/png" && $file_type != "image/jpeg" && $file_type != "image/gif" ){
-                        if($counter!=0){
-                            $messageObj->getWraningMessage("File type is not Image");
-                        }
-
-                    }else{
-                        $image_upload_stat=$setObj->setImage($file_name,"thread",$threadCreateStatus); //$reference_id is comment or thread id
-                        //echo'Success';
-                    }
-                    if(is_dir($desired_dir)==false){
-                        mkdir("$desired_dir", 0700);		// Create directory if it does not exist
-                    }
-                    if(is_dir("$desired_dir/".$file_name)==false){
-                        move_uploaded_file($file_tmp,$desired_dir."/".$file_name);
-                    }else{									//rename the file if another one exist
-                        $new_dir=$desired_dir."/".$file_name;
-                        rename($file_tmp,$new_dir) ;
-                    }
-                    //mysql_query($query);
-                }else{
-                    print_r($errors);
-                }
-                $counter++;
-            }
-            if(empty($error)){
-                //echo "Success";
-            }
-        }else{
-            echo'Nothing';
-        }
+        $threadCreateStatus=$setObj->setThread($thread_title,$thread_details,topic_name,$email);
     }
 
     //Topic add code
@@ -88,9 +32,10 @@
         </div>
         <div class="panel-body">
             <?php
-
-                if($threadCreateStatus>=1){
-                    $messageObj->getSuccessMessage("Thread created Successfully");
+                require_once('class/GetMessage.php');
+                $messageObj=new GetMessage();
+                if($threadCreateStatus==1){
+                    $messageObj->getSuccessMessage("Registration Successfully");
                 }else if($threadCreateStatus==0){
                     $messageObj->getErrorMessage("There was a problem, Try again.");
                 }
@@ -101,7 +46,7 @@
                 }
 
             ?>
-            <form accept-charset="UTF-8" role="form" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <form accept-charset="UTF-8" role="form" method="post" class="form-horizontal">
                 <fieldset>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="email">Thread Title:</label>
@@ -116,12 +61,11 @@
 
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="pwd">Topic:</label>
                         <div class=" col-sm-10">
                             <div class="form-group select-topic" style="padding: 0;margin: 0">
-                                <select class="form-control"  id="topic_name" name="topic_name">
+                                <select class="form-control"  id="std_section" name="std_section">
                                     <?php
                                         include_once('class/GetValue.php');
                                         $getTopics=new GetValue();
@@ -135,15 +79,6 @@
                             <i class="fa fa-plus-circle" aria-hidden="true" ></i> <a href="#" data-toggle="modal" data-target="#myModal">Add New Topic</a>
                         </div>
                     </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="images">Upload images:</label>
-                        <div class="col-sm-10">
-                            <input type="file" name="files[]" multiple="" />
-                        </div>
-                    </div>
-
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input class="btn btn-md btn-success btn-block" type="submit" value="Create Thread" name="create_thread">

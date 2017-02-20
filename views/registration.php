@@ -4,8 +4,6 @@
     $db->createUserTable();
     $db->createThreadTable();
     $db->createTopicTable();
-    $db->createImageTable();
-    $db->createCommentTable();
     $registration_status=404;
 
     require_once('class/SetValue.php');

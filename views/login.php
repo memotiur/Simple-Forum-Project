@@ -1,16 +1,10 @@
 <?php
     $login_status=404;
     if(isset($_GET['message'])){
-
+        $login_status=3;
         $status=1;
-        if($_GET['message']=="thread_err"){
-            $login_status=3;
-            $status=1;
-        }else if($_GET['message']=="comment_err"){
-            $login_status=4;
-            $status=1;
-        }
-
+    }else{
+        $status=0;
     }
     require('class/GetValue.php');
     $loginObj=new GetValue();
@@ -40,9 +34,6 @@
                 }else if($login_status==3){
 
                     $messageObj->getWraningMessage("Please login first to write Thread.");
-                }else if($login_status==4){
-
-                    $messageObj->getWraningMessage("Please login first to write Comment.");
                 }
 
             ?>

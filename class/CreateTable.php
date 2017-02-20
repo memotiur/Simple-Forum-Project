@@ -13,7 +13,7 @@
 				password VARCHAR(255),
 				edit_time datetime,
 				registration_time datetime NOT NULL DEFAULT NOW(),
-				PRIMARY KEY(user_id)
+				PRIMARY KEY(userId)
 			)";
                 $conn->exec($table_create);
                 echo 'user_table Created Successfully';
@@ -48,6 +48,7 @@
         }
         public function createTopicTable(){
             $dbObj=new DBConfig();
+            $foregin_table=$dbObj->user_table;
             $conn=$dbObj->dbConnector();
             try {
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -65,50 +66,5 @@
 
         }
 
-        public function createImageTable(){
-            $dbObj=new DBConfig();
-            $conn=$dbObj->dbConnector();
-            try {
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $table_create="CREATE TABLE IF NOT EXISTS ".$dbObj->image_table."(
-                    img_id INT AUTO_INCREMENT ,
-                    img_ref VARCHAR(255),
-                    upload_type VARCHAR(255),
-                    reference_id INT,/*Comment oR Thread ID*/
-                    create_time datetime NOT NULL DEFAULT NOW(),
-                    PRIMARY KEY(img_id)
-                )";
-                $conn->exec($table_create);
-                echo $dbObj->image_table."Created Successfully";
-            }catch(PDOException $e){
-                echo 'Table Not Creted'. $e->getMessage();
-            }
-
-        }
-
-        public function createCommentTable(){
-            $dbObj=new DBConfig();
-            $foregin_table=$dbObj->thread_table;
-            $conn=$dbObj->dbConnector();
-            try {
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $table_create="CREATE TABLE IF NOT EXISTS ".$dbObj->comment_table."(
-                    comment_id INT AUTO_INCREMENT ,
-                    comment VARCHAR(255),
-                    thread_id INT,
-                    user_email VARCHAR(255),
-                    update_time datetime,
-                    create_time datetime NOT NULL DEFAULT NOW(),
-                    PRIMARY KEY(comment_id)
-                )";
-                $conn->exec($table_create);
-                echo $dbObj->comment_table."Created Successfully";
-            }catch(PDOException $e){
-                echo 'Table Not Creted'. $e->getMessage();
-            }
-
-        }
-
     }
-    // FOREIGN KEY (thread_id) REFERENCES $foregin_table(thread_id)
 ?>
