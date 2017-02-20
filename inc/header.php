@@ -18,6 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -37,11 +38,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-                <form class="navbar-form navbar-left">
+                <form class="navbar-form navbar-left" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" width="100%">
+                        <input type="text" class="form-control" placeholder="Search thread, description, contributor" name="serach_keyword" width="100%">
                     </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button type="submit" class="btn btn-default" name="serach_button">Search</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="?page=create_thread">Create Thread</a></li>

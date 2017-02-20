@@ -1,4 +1,5 @@
 <?php
+	ob_start();
     require_once('DBConfig.php');
     if(isset($_GET['thread_id'])){
         $thread_id=$_GET['thread_id'];
@@ -19,7 +20,7 @@
             $images = $result->fetchall();
             //print_r($images);
             foreach($images as $image){
-                $photo_name="../img/".$image['img_ref'];//Delete photo url maybe changed
+                $photo_name="../images/".$image['img_ref'];//Delete photo url maybe changed
                 //echo'<img src="'.$photo_name.'">';
                 if(file_exists($photo_name))
                     unlink($photo_name);
